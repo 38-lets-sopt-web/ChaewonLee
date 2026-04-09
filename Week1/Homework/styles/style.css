@@ -1,4 +1,7 @@
 body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
     background-color: var(--color-bg);
 }
 
@@ -45,7 +48,9 @@ header > div {
 }
 
 .main-container {
+    flex: 1;
     padding-top: 7rem;
+    padding-bottom: 1rem;
 }
 
 #photo-dump {
@@ -195,4 +200,13 @@ header > div {
 
 .notice-item::after {
     content: "✅";
+}
+
+.footer {
+    display: flex;
+    width: 100%;
+    height: 8rem;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-primary);
 }
