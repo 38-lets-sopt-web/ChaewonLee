@@ -48,11 +48,10 @@ header > div {
     padding-top: 7rem;
 }
 
-#photo-dump, #photo-like {
+#photo-dump {
     display: flex;
     flex-direction: column;
     height: calc(100vh - 10rem); 
-    
 }
 
 .photo-grid {
@@ -105,3 +104,77 @@ header > div {
     flex-shrink: 0;
 }
 
+#photo-like, #interests {
+    display:flex;
+    flex-direction: column;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(5, 15rem);
+    gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+    .card-container {
+        grid-template-columns: repeat(4, 15rem);
+    }
+}
+
+@media (max-width: 900px) {
+    .card-container {
+        grid-template-columns: repeat(3, 15rem);
+    }
+}
+
+@media (max-width: 650px) {
+    .card-container {
+        grid-template-columns: repeat(2, 15rem);
+    }
+}
+
+@media (max-width: 400px) {
+    .card-container {
+        grid-template-columns: repeat(1, 15rem);
+    }
+}
+
+.card {
+    background-color: var(--color-white);
+    width: 15rem;
+    height: 16rem;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.card-thumbnail img {
+    width: 100%;
+    height: 8.5rem;
+    object-fit: cover;
+}
+
+.card-container h4 {
+    padding-left: 2rem;
+}
+
+.card-button {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-like {
+    width: 5rem;
+    height: 2rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: var(--color-primary);
+}
+
+.btn-dislike {
+    width: 5rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: var(--color-dislike);
+}
