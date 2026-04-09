@@ -48,10 +48,9 @@ header > div {
     padding-top: 7rem;
 }
 
-#photo-dump {
+#photo-dump, #photo-like {
     display: flex;
     flex-direction: column;
-    width: 80%;
     height: calc(100vh - 10rem); 
     
 }
@@ -83,3 +82,26 @@ header > div {
     grid-column: span 3; 
     grid-row: span 2;   
 }
+
+.photo-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.photo-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.photo-scroll img {
+    width: 15rem;
+    height: 15rem;
+    object-fit: cover;
+    scroll-snap-align: center;
+    border-radius: 1rem;
+    flex-shrink: 0;
+}
+
