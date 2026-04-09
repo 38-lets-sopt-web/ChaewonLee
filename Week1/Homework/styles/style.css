@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -47,10 +51,59 @@ header > div {
     border-radius: 100%;
 }
 
+section {
+    scroll-margin-top: 8rem;
+}
+
 .main-container {
     flex: 1;
     padding-top: 7rem;
     padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    display: flex; 
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.side-nav {
+    position: sticky;
+    top: 8rem;
+
+    width: 20rem;
+    padding: 1rem;
+
+    background-color: var(--color-white);
+    border-radius: 1rem;
+
+    height: fit-content;
+    flex-shrink: 0;
+}
+
+.side-nav ul {
+    list-style: none; 
+    padding: 0;       
+    margin: 0;       
+}
+
+.side-nav a {
+    text-decoration: none;   
+    color: var(--color-black);        
+    display: block;        
+    padding: 0.8rem 1rem;  
+    border-radius: 0.5rem; 
+    transition: all 0.2s;  
+}
+
+.side-nav a:hover {
+    background-color: var(--color-primary); 
+    color: var(--color-white);
+}
+
+.content {
+    flex: 1;
+    min-width: 0;
 }
 
 #photo-dump {
@@ -116,32 +169,8 @@ header > div {
 
 .card-container {
     display: grid;
-    grid-template-columns: repeat(5, 15rem);
+    grid-template-columns: repeat(auto-fill, 15rem);
     gap: 1rem;
-}
-
-@media (max-width: 1200px) {
-    .card-container {
-        grid-template-columns: repeat(4, 15rem);
-    }
-}
-
-@media (max-width: 900px) {
-    .card-container {
-        grid-template-columns: repeat(3, 15rem);
-    }
-}
-
-@media (max-width: 650px) {
-    .card-container {
-        grid-template-columns: repeat(2, 15rem);
-    }
-}
-
-@media (max-width: 400px) {
-    .card-container {
-        grid-template-columns: repeat(1, 15rem);
-    }
 }
 
 .card {
