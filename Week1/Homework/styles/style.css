@@ -178,3 +178,21 @@ header > div {
     border: none;
     background-color: var(--color-dislike);
 }
+
+.notice {
+    border-radius: 1rem;
+    background-color: var(--color-white);
+}
+
+.notice-item {
+    padding: 1rem;
+    margin: 0;
+}
+
+.notice-item::before {
+    content: "📣";
+}
+
+.notice-item::after {
+    content: "✅";
+}
