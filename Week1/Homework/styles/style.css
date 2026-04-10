@@ -175,40 +175,50 @@ section {
 }
 
 .card {
-    background-color: var(--color-white);
-    width: 15rem;
-    height: 16rem;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
     border-radius: 1rem;
     overflow: hidden;
+    background-color: var(--color-white);
 }
 
 .card-thumbnail {
     width: 100%;
-    height: 8.5rem;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
 }
 
-.card-container h4 {
-    padding-left: 2rem;
+.card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    gap: 1rem;
+}
+
+.card-content h4 {
+    margin: 0;
 }
 
 .card-button {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    width: 100%;
+    height: 2rem;
+    justify-content: space-between;
+    gap: 0.5rem;
 }
 
+
 .btn-like {
-    width: 5rem;
-    height: 2rem;
+    width: 6rem;
     border-radius: 1rem;
     border: none;
     background-color: var(--color-primary);
 }
 
 .btn-dislike {
-    width: 5rem;
+    width: 6rem;
     border-radius: 1rem;
     border: none;
     background-color: var(--color-dislike);
