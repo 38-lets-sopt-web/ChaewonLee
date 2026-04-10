@@ -241,6 +241,12 @@ section {
     border-radius: 1rem;
     overflow: hidden;
     background-color: var(--color-white);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); 
 }
 
 .card-thumbnail {
@@ -267,6 +273,7 @@ section {
     height: 2rem;
     justify-content: space-between;
     gap: 0.5rem;
+    transition: background-color 0.3s ease;
 }
 
 
@@ -282,6 +289,14 @@ section {
     border-radius: 1rem;
     border: none;
     background-color: var(--color-dislike);
+}
+
+.btn-like:hover {
+    opacity: 0.8;
+}
+
+.btn-dislike:hover {
+    opacity: 0.8;
 }
 
 .notice {
