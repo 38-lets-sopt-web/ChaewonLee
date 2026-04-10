@@ -25,30 +25,49 @@ header > div {
     align-items: center;
 }
 
-.header_profile {
+.header-profile {
     justify-content: flex-start;
     padding-left: 1rem;
 }
 
-.header_title {
+.header-title {
     flex-direction: column;
     justify-content: center;
 }
 
-.header_title h1,
-.header_title p {
+.header-title h1,
+.header-title p {
     margin: 0;
 }
 
-.header_icon {
+.header-icon {
     justify-content: flex-end;
     padding-right: 1rem;
 }
 
-.image_profile , .image_github {
+.profile-image  {
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 100%;
+}
+
+.profile-image {
+    transition: box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.github-icon i {
+    font-size: 3.5rem;
+    color: var(--color-bg);
+    transition: transform 0.3s ease;
+}
+
+.github-icon:hover i {
+    color: var(--color-black);
+    transform: translateY(-4px);
 }
 
 section {
