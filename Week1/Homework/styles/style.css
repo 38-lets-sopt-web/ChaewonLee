@@ -177,6 +177,7 @@ section {
     display: flex;
     gap: 1rem;
     overflow-x: auto;
+    padding-top: 3rem;
     scroll-snap-type: x mandatory;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -186,18 +187,44 @@ section {
     display: none;
 }
 
-.photo-scroll img {
-    width: 15rem;
-    height: 15rem;
-    object-fit: cover;
-    scroll-snap-align: center;
-    border-radius: 1rem;
-    flex-shrink: 0;
-}
 
 #photo-like, #interests {
     display:flex;
     flex-direction: column;
+}
+
+.scroll-wrapper {
+    display: flex;
+    gap: 1rem;
+    padding-right: 1rem;
+    animation: infiniteScroll 40s linear infinite;
+}
+
+.scroll-wrapper img {
+    width: 15rem;
+    height: 15rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.scroll-wrapper img:hover {
+    transform: translateY(-8px);
+    cursor: pointer;
+}
+
+.photo-scroll:hover .scroll-wrapper {
+    animation-play-state: paused;
+}
+
+@keyframes infiniteScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 .card-container {
