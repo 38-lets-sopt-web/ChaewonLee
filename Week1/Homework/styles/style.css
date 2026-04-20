@@ -1,58 +1,51 @@
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     display: flex;
     flex-direction: column;
-    margin: 0;
     background-color: var(--color-bg);
 }
-
+/* 헤더 공통 레이아웃 구조 */
 header {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1000; 
+    display: flex;
     width: 100%;
     height: 6rem;
-    display: flex;
     background-color: var(--color-primary);
 }
 
+/* 헤더를 삼등분하는 공통 구역 */
 header > div {
     flex: 1;
     display:flex;
     align-items: center;
 }
 
+/* 왼쪽 프로필 영역 */
 .header-profile {
     justify-content: flex-start;
     padding-left: 1rem;
 }
 
+/* 가운데 제목 영역 */
 .header-title {
     flex-direction: column;
     justify-content: center;
 }
 
-.header-title h1,
-.header-title p {
-    margin: 0;
-}
-
+/* 오른쪽 아이콘 영역 */
 .header-icon {
     justify-content: flex-end;
     padding-right: 1rem;
 }
 
 .profile-image  {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: var(--header-item-size);
+    height: var(--header-item-size);
     border-radius: 100%;
-}
-
-.profile-image {
     transition: box-shadow 0.3s ease;
+    object-fit: cover; /* 이미지 찌그러지지 않도록 속성 추가 */
 }
 
 .profile-image:hover {
@@ -60,7 +53,7 @@ header > div {
 }
 
 .github-icon i {
-    font-size: 3.5rem;
+    font-size: var(--header-item-size);
     color: var(--color-bg);
     transition: transform 0.3s ease;
 }
@@ -100,14 +93,7 @@ section {
     flex-shrink: 0;
 }
 
-.side-nav ul {
-    list-style: none; 
-    padding: 0;       
-    margin: 0;       
-}
-
-.side-nav a {
-    text-decoration: none;   
+.side-nav a {  
     color: var(--color-black);        
     display: block;        
     padding: 0.8rem 1rem;  
@@ -230,7 +216,6 @@ section {
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, 15rem);
-    padding: 0;
     gap: 1rem;
 }
 
@@ -280,14 +265,12 @@ section {
 .btn-like {
     width: 6rem;
     border-radius: 1rem;
-    border: none;
     background-color: var(--color-primary);
 }
 
 .btn-dislike {
     width: 6rem;
     border-radius: 1rem;
-    border: none;
     background-color: var(--color-dislike);
 }
 
@@ -306,7 +289,6 @@ section {
 
 .notice-item {
     padding: 1rem;
-    margin: 0;
 }
 
 .notice-item::before {

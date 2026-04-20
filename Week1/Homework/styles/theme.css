@@ -5,4 +5,7 @@
     --color-dislike: #B4DAF0;
     --color-white: #fff;
     --color-black: #000;
+
+    /* size */
+    --header-item-size: 3.5rem;
 }
