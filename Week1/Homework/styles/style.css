@@ -241,46 +241,37 @@ section {
 }
 
 .card-content {
-    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    align-items: self-start;
     gap: 1rem;
+    padding: 1.5rem;
 }
 
-.card-content h4 {
-    margin: 0;
-}
-
-.card-button {
+.btn-container {
     display: flex;
     width: 100%;
     height: 2rem;
-    justify-content: space-between;
     gap: 0.5rem;
+}
+
+.btn {
+    width: 6rem;
+    border-radius: 1rem;
     transition: background-color 0.3s ease;
 }
 
+.btn:hover {
+    opacity: 0.8;
+}
 
 .btn-like {
-    width: 6rem;
-    border-radius: 1rem;
     background-color: var(--color-primary);
 }
 
 .btn-dislike {
-    width: 6rem;
-    border-radius: 1rem;
     background-color: var(--color-dislike);
 }
 
-.btn-like:hover {
-    opacity: 0.8;
-}
-
-.btn-dislike:hover {
-    opacity: 0.8;
-}
 
 .notice {
     border-radius: 1rem;
