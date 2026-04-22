@@ -90,10 +90,37 @@ const resetFilter = () => {
   renderExpenseList(); // 전체 데이터 다시 렌더링
 };
 
+/* 전체 체크박스 기능 관리 */
+const handleCheckboxLogic = () => {
+  const checkAll = document.querySelector("#check-all"); // 헤더 체크박스
+  
+  // 헤더 체크박스 클릭 시 모든 개별 체크박스 체크됨
+  checkAll.addEventListener("change", (e) => {
+    const isChecked = e.target.checked;
+    const itemCheckboxes = document.querySelectorAll(".item-checkbox");
+    itemCheckboxes.forEach((box) => {
+      box.checked = isChecked;
+    });
+  });
+
+  // 개별 체크박스 클릭 시 헤더 체크박스 상태 결정
+  const listBody = document.querySelector("#expense-list-body");
+  listBody.addEventListener("change", (e) => {
+    if (e.target.classList.contains("item-checkbox")) {
+      const allItems = document.querySelectorAll(".item-checkbox");
+      const checkedItems = document.querySelectorAll(".item-checkbox:checked");
+      
+      // 모든 항목이 체크되어 있으면 헤더도 체크, 하나라도 아니면 해제
+      checkAll.checked = allItems.length === checkedItems.length;
+    }
+  });
+};
+
 /* 초기화 및 이벤트 리스너 */
 const init = () => {
   initData();
   renderExpenseList();
+  handleCheckboxLogic();
 
   // 필터 적용 버튼 이벤트
   const filterForm = document.querySelector(".search-filter__form");
