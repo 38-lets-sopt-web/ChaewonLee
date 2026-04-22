@@ -184,3 +184,59 @@ section {
 #total-amount {
   color: var(--color-primary-500);
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0; /* top, left, right, bottom: 0 */
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--color-primary-100);
+  width: 90%;
+  max-width: 26rem;
+  padding: 24px;
+  border-radius: 16px;
+  position: relative; /* 닫기 버튼 배치를 위해 추가 */
+}
+
+.modal__close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 1.17rem;
+  color: var(--color-primary-800);
+}
+
+.modal__item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.modal__item input,
+.modal__item select {
+  padding: 12px 16px;
+  border: 1.5px solid var(--color-primary-200);
+  border-radius: 10px;
+}
+
+.modal__submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-primary-500);
+  color: var(--color-primary-100);
+  border-radius: 8px;
+}
