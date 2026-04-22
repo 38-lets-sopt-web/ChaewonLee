@@ -9,4 +9,10 @@
   --color-primary-800: #0F3F7A;
   --color-primary-900: #0A2A52;
   --color-secondary-500: #FF4D4D; /* 지출 메인 컬러 */
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 }
