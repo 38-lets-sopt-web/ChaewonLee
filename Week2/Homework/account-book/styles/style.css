@@ -41,6 +41,15 @@ section {
   gap: 16px;
 }
 
+/* 버튼 공통 스타일 정의 */
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background-color: var(--color-primary-500);
+  color: var(--color-primary-100);
+  font-weight: var(--font-weight-medium);
+}
+
 /* 폼 레이아웃 */
 .search-filter__form {
   display: grid;
@@ -76,7 +85,7 @@ section {
 
 /* 내부 요소 스타일 */
 .search-filter__label {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   white-space: nowrap;
 }
 
@@ -86,20 +95,6 @@ section {
   padding: 10px 12px;
   border: 1px solid var(--color-primary-200);
   border-radius: 6px;
-}
-
-/* 버튼 공통 스타일 */
-.search-filter__btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 6px;
-  background-color: var(--color-primary-500);
-  color: var(--color-primary-100);
-  transition: opacity 0.2s;
-}
-
-.search-filter__btn:hover {
-  opacity: 0.8;
 }
 
 /* 적용 버튼 */
@@ -131,14 +126,6 @@ section {
   gap: 10px;
 }
 
-/* 상단 액션 버튼 공통 스타일 */
-.btn-action {
-  padding: 8px 16px;
-  border-radius: 6px;
-  color: var(--color-primary-100);
-  background-color: var(--color-primary-500);
-}
-
 /* 테이블 스타일 */
 .account-table {
   width: 100%;
@@ -158,13 +145,13 @@ section {
 
 /* 제목 열 */
 .table-title {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   text-decoration: underline; /* 제목에 밑줄 */
 }
 
 /* 금액 스타일 적용 */
 .table-amount {
-  font-weight: bold;
+  font-weight: var(--font-weight-medium);
 }
 
 .income { color: var(--color-primary-500); } /* 수입: 파란색 */
@@ -173,16 +160,12 @@ section {
 /* 하단 합계 영역 */
 .account-table__total {
   background-color: var(--color-primary-200);
-  font-weight: bold;
+  font-weight: var(--font-weight-medium);
 }
 
 .account-table__total td {
   padding: 20px;
   border-bottom: none;
-}
-
-#total-amount {
-  color: var(--color-primary-500);
 }
 
 .modal {
@@ -235,8 +218,4 @@ section {
 
 .modal__submit-btn {
   width: 100%;
-  padding: 12px;
-  background-color: var(--color-primary-500);
-  color: var(--color-primary-100);
-  border-radius: 8px;
 }
