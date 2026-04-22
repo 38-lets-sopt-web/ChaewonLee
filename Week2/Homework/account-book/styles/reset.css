@@ -22,8 +22,13 @@ img {
   max-width: 100%;
 }
 
+button, input, select, textarea {
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
 button {
   background: none;
-  border: none;
   cursor: pointer;
 }

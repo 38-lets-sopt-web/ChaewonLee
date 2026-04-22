@@ -11,15 +11,54 @@
   <body>
     <header class="header">
       <div class="header__left">
-        <button type="button" id="header__icon" aria-label="새로고침">🍀</button>
+        <button type="button" class="header__refresh-btn" id="header__icon" aria-label="새로고침">🍀</button>
       </div>
       <div class="header__center">
-        <h1>채원이의 가계부</h1>
+        <h1 class="header__title">채원이의 가계부</h1>
       </div>
       <div class="header__right">
-        <span>SOPT 38th WEB</span>
+        <span class="header__info">SOPT 38th WEB</span>
       </div>
     </header>
-    <script src="js/main.js"></script>
+
+    <main class="main-content">
+      <section class="search-filter">
+        <h2 class="search-filter__title">검색 필터</h2>
+        <form class="search-filter__form">
+          
+          <div class="search-filter__item search-filter__item--full">
+            <label class="search-filter__label" for="filter-name">제목</label>
+            <input class="search-filter__input" type="text" id="filter-name" placeholder="내역을 입력하세요">
+          </div>
+
+          <div class="search-filter__item">
+            <label class="search-filter__label">유형</label>
+            <select class="search-filter__select">
+              <option>전체</option>
+            </select>
+          </div>
+
+          <div class="search-filter__item">
+            <label class="search-filter__label">카테고리</label>
+            <select class="search-filter__select">
+              <option>전체</option>
+            </select>
+          </div>
+
+          <div class="search-filter__item">
+            <label class="search-filter__label">결제수단</label>
+            <select class="search-filter__select">
+              <option>전체</option>
+            </select>
+          </div>
+
+          <button type="submit" class="search-filter__btn search-filter__btn--apply">적용</button>
+          <button type="reset" class="search-filter__btn search-filter__btn--reset">초기화</button>
+
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>
