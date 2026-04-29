@@ -10,9 +10,9 @@ export const applyFilter = (e) => {
   const titleInput = document.querySelector("#filter-name").value.toLowerCase().trim(); // 공백 제거하기
   const selects = document.querySelectorAll(".search-filter__select");
 
-  const typeSelect = selects[0].value;     // 유형
-  const categorySelect = selects[1].value; // 카테고리
-  const paymentSelect = selects[2].value;  // 결제수단
+  const typeSelect = document.getElementById("filter-type").value;
+  const categorySelect = document.getElementById("filter-category").value;
+  const paymentSelect = document.getElementById("filter-payment").value;
 
   // AND를 이용한 필터링
   const filteredData = allData.filter((item) => {
