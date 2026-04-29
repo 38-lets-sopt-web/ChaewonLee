@@ -112,8 +112,15 @@
           <input type="text" id="add-title" placeholder="제목을 입력하세요">
         </div>
         <div class="modal__item">
+          <label>유형</label>
+          <div class="modal__type-selector">
+            <label><input type="radio" name="add-type" value="수입" checked> 수입</label>
+            <label><input type="radio" name="add-type" value="지출"> 지출</label>
+          </div>
+        </div>
+        <div class="modal__item">
           <label for="add-amount">금액</label>
-          <input type="number" id="add-amount" placeholder="지출은 -를 붙여주세요">
+          <input type="number" id="add-amount" placeholder="금액을 입력하세요">
         </div>
         <div class="modal__item">
           <label for="add-date">날짜</label>

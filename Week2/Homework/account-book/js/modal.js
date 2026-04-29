@@ -27,6 +27,7 @@ export const handleAddModal = () => {
     const date = document.querySelector("#add-date").value;
     const category = document.querySelector("#add-category").value;
     const payment = document.querySelector("#add-payment").value;
+    const type = document.querySelector('input[name="add-type"]:checked').value;
 
     // 빈 값 체크 - 하나라도 비어있으면 alert 띄우기
     if (!title || !amount || !date || !category || !payment) {
@@ -34,12 +35,19 @@ export const handleAddModal = () => {
       return;
     }
 
+    let finalAmount = Number(amount);
+    if (type === "지출") {
+      finalAmount = -Math.abs(finalAmount);
+    } else {
+      finalAmount = Math.abs(finalAmount);
+    }
+
     // 새로운 데이터 객체 생성
     const allData = getExpenseData();
     const newData = {
       id: Date.now(),
       title,
-      amount: Number(amount),
+      amount: finalAmount,
       date,
       category,
       payment
