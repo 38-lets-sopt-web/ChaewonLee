@@ -1,5 +1,6 @@
 import { getExpenseData, saveExpenseData } from './storage.js';
 import { renderExpenseList } from './render.js';
+import {TRANSACTION_TYPE} from './constant.js';
 
 /* 추가 모달 */
 export const handleAddModal = () => {
@@ -36,7 +37,7 @@ export const handleAddModal = () => {
     }
 
     let finalAmount = Number(amount);
-    if (type === "지출") {
+    if (type === TRANSACTION_TYPE.EXPENSE) {
       finalAmount = -Math.abs(finalAmount);
     } else {
       finalAmount = Math.abs(finalAmount);

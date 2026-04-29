@@ -1,5 +1,6 @@
 import { getExpenseData } from './storage.js';
 import { renderExpenseList } from './render.js';
+import {TRANSACTION_TYPE, FILTER_DEFAULT} from './constant.js';
 
 /* 검색 필터 적용 함수 */
 export const applyFilter = (e) => {
@@ -20,14 +21,14 @@ export const applyFilter = (e) => {
     const matchesTitle = item.title.toLowerCase().includes(titleInput);
 
     // 유형은 전체거나 데이터의 유형이 선택값과 같은지
-    const itemType = item.amount > 0 ? "수입" : "지출";
-    const matchesType = typeSelect === "전체" || itemType === typeSelect;
+    const itemType = item.amount > 0 ? TRANSACTION_TYPE.INCOME : TRANSACTION_TYPE.EXPENSE;
+    const matchesType = typeSelect === FILTER_DEFAULT || itemType === typeSelect;
 
     // 카테고리는 전체거나 데이터의 카테고리가 일치하는지
-    const matchesCategory = categorySelect === "전체" || item.category === categorySelect;
+    const matchesCategory = categorySelect === FILTER_DEFAULT || item.category === categorySelect;
 
     // 결제수단은 전체거나 데이터의 결제수단이 일치하는지
-    const matchesPayment = paymentSelect === "전체" || item.payment === paymentSelect;
+    const matchesPayment = paymentSelect === FILTER_DEFAULT || item.payment === paymentSelect;
 
     return matchesTitle && matchesType && matchesCategory && matchesPayment;
   });
