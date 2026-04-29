@@ -6,8 +6,9 @@ export const renderExpenseList = (targetData = getExpenseData()) => {
   const totalAmountDisplay = document.querySelector("#total-amount");
   if (!listBody) return;
 
+  const sortedData = [...targetData].sort((a, b) => new Date(b.date) - new Date(a.date));
   let total = 0;
-  const listHTML = targetData.map((item) => {
+  const listHTML = sortedData.map((item) => {
     const isIncome = item.amount > 0;
     total += item.amount;
     return `
