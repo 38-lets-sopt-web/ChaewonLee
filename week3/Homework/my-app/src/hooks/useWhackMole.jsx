@@ -1,6 +1,12 @@
 import { useState, useRef } from 'react'
-
-const LEVEL_TIMES = { 1: 150, 2: 200, 3: 300 }
+import {
+        LEVEL_TIMES,
+        BOMB_PROBABILITY,
+        MOLE_VISIBLE_DURATION,
+        MOLE_SPAWN_INTERVAL,
+        TIMER_TICK_INTERVAL,
+        RESULT_DISPLAY_DURATION,
+    } from '../constants/game'
 
 export default function useWhackAMole() {
     const [level, setLevel] = useState(1)
@@ -50,7 +56,7 @@ export default function useWhackAMole() {
         setTimeout(() => {
             setIsModalOpen(false)
             resetGame()
-        }, 3000)
+        }, RESULT_DISPLAY_DURATION)
         } else {
         resetGame()
         }
@@ -59,7 +65,7 @@ export default function useWhackAMole() {
     const spawnItem = () => {
         const totalHoles = gridSize * gridSize
         const randomIndex = Math.floor(Math.random() * totalHoles)
-        const itemType = Math.random() < 0.2 ? 'bomb' : 'mole'
+        const itemType = Math.random() < BOMB_PROBABILITY  ? 'bomb' : 'mole'
 
         setActiveHoles((prev) => ({ ...prev, [randomIndex]: itemType }))
         setTimeout(() => {
@@ -68,7 +74,7 @@ export default function useWhackAMole() {
             delete next[randomIndex]
             return next
         })
-        }, 1000)
+        }, MOLE_VISIBLE_DURATION)
     }
 
     const startGame = () => {
@@ -83,9 +89,9 @@ export default function useWhackAMole() {
             if (prev <= 1) { stopGame(true); return 0 }
             return prev - 1
         })
-        }, 100)
+        }, TIMER_TICK_INTERVAL)
 
-        moleTimerRef.current = setInterval(spawnItem, 700)
+        moleTimerRef.current = setInterval(spawnItem, MOLE_SPAWN_INTERVAL)
     }
 
     const handleHoleClick = (index) => {
