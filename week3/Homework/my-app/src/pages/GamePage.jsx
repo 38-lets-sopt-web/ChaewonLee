@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import InfoCard from '../components/InfoCard'
 import GameController from '../components/GameController'
 import GameBoard from '../components/GameBoard';
@@ -7,13 +7,40 @@ import GameBoard from '../components/GameBoard';
 export default function GamePage() {
     const [level, setLevel] = useState(1);
     const [isPlaying, setIsPlaying] = useState(false);
-    const startGame = () => setIsPlaying(true);
-    const stopGame = () => setIsPlaying(false);
+    const [timeLeft, setTimeLeft] = useState(150);
+    const timerRef = useRef(null);
     const gridSize = level+1;
-    return (
+    
+    const startGame = () => {
+        if (timerRef.current) return;
+
+        setIsPlaying(true);
+        setTimeLeft(150);
+
+        timerRef.current = setInterval(() => {
+            setTimeLeft((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timerRef.current);
+                    timerRef.current = null;
+                    setIsPlaying(false);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 100);
+    };
+
+    const stopGame = () => {
+        setIsPlaying(false);
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+    };
+        return (
         <>
             <SideSection>
-                <InfoCard title="남은 시간" value="20.0" />
+                <InfoCard title="남은 시간" value={(timeLeft / 10).toFixed(1)} />
                 <InfoCard title="총 점수" value="0" />
                 <StatusGroup>
                     <InfoCard title="성공" value="3" />

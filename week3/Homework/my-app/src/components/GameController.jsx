@@ -48,4 +48,8 @@ const GameBtn = styled.button`
     border-radius: ${({theme}) => theme.borderRadius.md};
     color: ${({theme}) => theme.colors.textMain};
     background-color: ${({ theme }) => theme.colors.secondary};
+    &:disabled {
+        background-color: transparent;
+        border: 1.5px solid ${({ theme }) => theme.colors.secondary};
+    }
 `
