@@ -4,6 +4,8 @@ import styled from '@emotion/styled'
 import GlobalStyles from './styles/GlobalStyles.jsx'
 import { theme } from './styles/theme.js'
 import Header from './components/Header.jsx'
+import GamePage from './pages/GamePage.jsx'
+import RankingPage from './pages/RankingPage.jsx'
 
 function App() {
   const [activeTab, setActiveTab] = useState('game');
@@ -14,11 +16,7 @@ function App() {
       <MainLayout>
         <Header activeTab={activeTab} setActiveTab={setActiveTab} />
         <ContentWrapper>
-          {activeTab === 'game' ? (
-            <div>게임 화면 준비 중!!</div>
-          ) : (
-            <div>랭킹 화면 준비 중!!</div>
-          )}
+          {activeTab === 'game' ? <GamePage /> : <RankingPage />}
         </ContentWrapper>
       </MainLayout>
     </ThemeProvider>
@@ -38,5 +36,7 @@ const MainLayout = styled.div`
 
 const ContentWrapper = styled.main `
   display: flex;
+  flex: 1;
+  gap: 36px;
   margin-top: 24px;
-`
+`;
