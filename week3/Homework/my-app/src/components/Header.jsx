@@ -1,12 +1,22 @@
 import styled from '@emotion/styled'
 
-export default function Header () {
+export default function Header ({activeTab, setActiveTab}) {
     return (
         <HeaderContainer>
             <Title>두더지 게임</Title>
             <Tabs>
-                <Tab>게임</Tab>
-                <Tab>랭킹</Tab>
+                <Tab
+                    isActive={activeTab==='game'}
+                    onClick={() => setActiveTab('game')}
+                >
+                    게임
+                </Tab>
+                <Tab
+                    isActive={activeTab === 'ranking'}
+                    onClick={() => setActiveTab('ranking')}    
+                >
+                    랭킹
+                </Tab>
             </Tabs>
         </HeaderContainer>
 
@@ -41,7 +51,9 @@ const Tab = styled.button `
     color: ${({theme}) => theme.colors.textMain};
     border: 1.5px solid ${({ theme }) => theme.colors.secondary};
     border-radius: ${({theme}) => theme.borderRadius.md};
+    background-color: ${({ isActive, theme }) => 
+        isActive ? theme.colors.secondary : 'transparent'};
     &:hover {
-        background-color: ${({ theme }) => theme.colors.secondary};
+        background-color: ${({ theme }) => theme.colors.secondary };
     }
 `
