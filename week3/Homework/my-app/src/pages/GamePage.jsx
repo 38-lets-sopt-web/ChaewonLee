@@ -17,6 +17,7 @@ export default function GamePage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const timerRef = useRef(null);
     const moleTimerRef = useRef(null);
+    const isSavedRef = useRef(false);
     const gridSize = level+1;
     const LEVEL_TIMES = {
         1: 150, // 15초
@@ -34,6 +35,7 @@ export default function GamePage() {
         if (timerRef.current) return;
 
         setIsPlaying(true);
+        isSavedRef.current = false;
         setTimeLeft(LEVEL_TIMES[level]);
         setActiveHoles({});
 
@@ -75,6 +77,10 @@ export default function GamePage() {
         }
 
         if (isTimeout) {
+            if (!isSavedRef.current) {
+                isSavedRef.current = true;
+                saveRanking();
+            }
             setIsModalOpen(true);
             setTimeout(() => {
                 setIsModalOpen(false);
@@ -130,6 +136,18 @@ export default function GamePage() {
             setMessage("땡!!!!");
         }   
     };
+
+    const saveRanking = () => {
+        const newRecord = {
+            level: level,
+            score: score,
+            date: new Date().toLocaleString(),
+        };
+
+        const existingRankings = JSON.parse(localStorage.getItem('mole-rankings') || '[]');
+        const updatedRankings = [...existingRankings, newRecord];
+        localStorage.setItem('mole-rankings', JSON.stringify(updatedRankings));
+    };  
         return (
         <>
             <SideSection>

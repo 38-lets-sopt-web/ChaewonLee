@@ -1,5 +1,125 @@
-export default function GamePage() {
+import styled from '@emotion/styled';
+import { useState, useEffect } from 'react';
+
+export default function RankingPage() {
+    const [rankings, setRankings] = useState([]);
+
+    useEffect(() => {
+        try {
+            const raw = localStorage.getItem('mole-rankings');
+            const parsed = raw ? JSON.parse(raw) : [];
+
+            if (!Array.isArray(parsed)) {
+                setRankings([]);
+                return;
+            }
+
+            const sortedData = [...parsed].sort((a, b) => {
+                if ((b.level ?? 0) !== (a.level ?? 0)) {
+                    return (b.level ?? 0) - (a.level ?? 0);
+                }
+                return (b.score ?? 0) - (a.score ?? 0);
+            });
+
+            setRankings(sortedData);
+        } catch (e) {
+            console.error(e);
+            setRankings([]);
+        }
+    }, []);
+
+    const handleReset = () => {
+        if (window.confirm("정말로 모든 랭킹 기록을 지우시겠습니까?")) {
+            localStorage.removeItem('mole-rankings');
+            setRankings([]);
+            alert("초기화되었습니다.");
+        }
+    };
+
     return (
-        <div>랭킹 페이지 준비 중</div>
+        <RankingContainer>
+            <RankingHeader>
+                <Title>두더지 잡기 랭킹 보드</Title>
+                <ResetBtn onClick={handleReset}>기록 초기화</ResetBtn>
+            </RankingHeader>
+            <RankingTable>
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>레벨</th>
+                        <th>점수</th>
+                        <th>성공 시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {rankings.length > 0 ? (
+                        rankings.map((item, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>Level {item.level}</td>
+                                <td>{item.score}점</td>
+                                <td>{item.date}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="4">아직 기록이 없습니다. 첫 기록을 세워보세요!</td>
+                        </tr>
+                    )}
+                </tbody>
+            </RankingTable>
+        </RankingContainer>
     );
 }
+
+const RankingContainer = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 36px;
+    gap: 24px;
+    background: ${({ theme }) => theme.colors.bgCard};
+    border-radius: ${({theme}) => theme.borderRadius.md};
+`;
+
+const RankingHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;         
+`;
+
+const Title = styled.h1`
+    font-size: ${({theme}) => theme.typography.size.subtitle};
+    font-weight: ${({theme}) => theme.typography.weight.bold};
+    color: ${({ theme }) => theme.colors.textMain};
+`;
+
+const RankingTable = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+    background: ${({ theme }) => theme.colors.bgCard};
+    border-radius: ${({theme}) => theme.borderRadius.md};
+    overflow: hidden;
+
+    th, td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid ${({ theme }) => theme.colors.secondary};
+    }
+
+    th {
+        background: ${({ theme }) => theme.colors.secondary};
+        color: white;
+    }
+
+    tr:last-child td { border: none; }
+`;
+
+const ResetBtn = styled.button`
+    padding: 10px 20px;
+    background: ${({ theme }) => theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.textMain};
+    border-radius: ${({theme}) => theme.borderRadius.md};
+    font-weight: ${({theme}) => theme.typography.weight.bold};
+    &:hover { opacity: 0.8; }
+`;
