@@ -78,7 +78,13 @@ export default function GamePage() {
                 ...prev,
                 [index]: 'hit',
             }));
-        } 
+        } else if (currentItem === 'bomb') {
+            setActiveHoles((prev) => {
+                const newState = { ...prev };
+                delete newState[index];
+                return newState;
+            });
+        }   
     };
         return (
         <>
