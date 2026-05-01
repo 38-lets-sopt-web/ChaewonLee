@@ -1,32 +1,24 @@
 import styled from '@emotion/styled';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function RankingPage() {
-    const [rankings, setRankings] = useState([]);
-
-    useEffect(() => {
+    const [rankings, setRankings] = useState(() => {
         try {
             const raw = localStorage.getItem('mole-rankings');
             const parsed = raw ? JSON.parse(raw) : [];
 
-            if (!Array.isArray(parsed)) {
-                setRankings([]);
-                return;
-            }
+            if (!Array.isArray(parsed)) return [];
 
-            const sortedData = [...parsed].sort((a, b) => {
+            return [...parsed].sort((a, b) => {
                 if ((b.level ?? 0) !== (a.level ?? 0)) {
                     return (b.level ?? 0) - (a.level ?? 0);
                 }
                 return (b.score ?? 0) - (a.score ?? 0);
             });
-
-            setRankings(sortedData);
-        } catch (e) {
-            console.error(e);
-            setRankings([]);
+        } catch {
+            return [];
         }
-    }, []);
+    });
 
     const handleReset = () => {
         if (window.confirm("정말로 모든 랭킹 기록을 지우시겠습니까?")) {

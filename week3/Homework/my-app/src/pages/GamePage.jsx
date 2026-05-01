@@ -18,6 +18,7 @@ export default function GamePage() {
     const timerRef = useRef(null);
     const moleTimerRef = useRef(null);
     const isSavedRef = useRef(false);
+    const scoreRef = useRef(0);
     const gridSize = level+1;
     const LEVEL_TIMES = {
         1: 150, // 15초
@@ -58,6 +59,7 @@ export default function GamePage() {
     const resetGame = () => {
         setIsPlaying(false);
         setScore(0);
+        scoreRef.current = 0;
         setSuccessCount(0);
         setFailCount(0);
         setTimeLeft(LEVEL_TIMES[level]); 
@@ -122,7 +124,11 @@ export default function GamePage() {
                 ...prev,
                 [index]: 'hit',
             }));
-            setScore((prev) => prev + 1);
+            setScore((prev) => {
+                const newScore = prev + 1;
+                scoreRef.current = newScore;
+                return newScore;
+            });
             setSuccessCount((prev) => prev + 1);
             setMessage("두더지를 잡았다!");
         } else if (currentItem === 'bomb') {
@@ -131,7 +137,11 @@ export default function GamePage() {
                 delete newState[index];
                 return newState;
             });
-            setScore((prev) => prev - 1);
+            setScore((prev) => {
+                const newScore = prev - 1;
+                scoreRef.current = newScore;
+                return newScore;
+            });
             setFailCount((prev) => prev + 1);
             setMessage("땡!!!!");
         }   
@@ -140,7 +150,7 @@ export default function GamePage() {
     const saveRanking = () => {
         const newRecord = {
             level: level,
-            score: score,
+            score: scoreRef.current,
             date: new Date().toLocaleString(),
         };
 
