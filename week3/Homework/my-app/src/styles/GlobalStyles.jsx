@@ -19,6 +19,10 @@ const style = css`
   ul, li {
     list-style: none;
   }
+  
+  select {
+    outline: none;
+  }
 `;
 
 const GlobalStyles = () => <Global styles={style} />;
