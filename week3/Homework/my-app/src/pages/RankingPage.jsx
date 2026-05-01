@@ -1,32 +1,8 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useRanking } from '../hooks/useRanking'; 
 
 export default function RankingPage() {
-    const [rankings, setRankings] = useState(() => {
-        try {
-            const raw = localStorage.getItem('mole-rankings');
-            const parsed = raw ? JSON.parse(raw) : [];
-
-            if (!Array.isArray(parsed)) return [];
-
-            return [...parsed].sort((a, b) => {
-                if ((b.level ?? 0) !== (a.level ?? 0)) {
-                    return (b.level ?? 0) - (a.level ?? 0);
-                }
-                return (b.score ?? 0) - (a.score ?? 0);
-            });
-        } catch {
-            return [];
-        }
-    });
-
-    const handleReset = () => {
-        if (window.confirm("정말로 모든 랭킹 기록을 지우시겠습니까?")) {
-            localStorage.removeItem('mole-rankings');
-            setRankings([]);
-            alert("초기화되었습니다.");
-        }
-    };
+    const { rankings, handleReset } = useRanking();
 
     return (
         <RankingContainer>
@@ -34,6 +10,7 @@ export default function RankingPage() {
                 <Title>두더지 잡기 랭킹 보드</Title>
                 <ResetBtn onClick={handleReset}>기록 초기화</ResetBtn>
             </RankingHeader>
+            
             <RankingTable>
                 <thead>
                     <tr>
