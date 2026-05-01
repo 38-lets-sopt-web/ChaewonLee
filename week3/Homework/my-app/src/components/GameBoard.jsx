@@ -1,13 +1,18 @@
 import styled from '@emotion/styled'
+import moleImg from '../assets/mole.png';
+import bombImg from '../assets/bomb.png';
+import hitImg from '../assets/hit.png';
 
-export default function GameBoard({gridSize}) {
+export default function GameBoard({ gridSize, activeHoles, onHoleClick }) {
     const holes = Array.from({ length: gridSize * gridSize });
     return (
         <BoardContainer gridSize={gridSize}>
             {holes.map((_, index) => (
-                <Hole key={index}>
-    
-                </Hole>
+                <Hole
+                    key={index}
+                    activeItem={activeHoles[index]}
+                    onClick={ () => onHoleClick(index) }
+                />
             ))}
         </BoardContainer>
 
@@ -30,4 +35,15 @@ const Hole = styled.div`
     aspect-ratio: 1 / 1;
     background-color: ${({ theme }) => theme.colors.secondary};
     border-radius: ${({theme}) => theme.borderRadius.round};
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    background-image: ${({ activeItem }) => {
+        if (activeItem === 'mole') return `url(${moleImg})`;
+        if (activeItem === 'bomb') return `url(${bombImg})`;
+        if (activeItem === 'hit') return `url(${hitImg})`;
+        return 'none'; 
+    }};
 `

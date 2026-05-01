@@ -8,7 +8,9 @@ export default function GamePage() {
     const [level, setLevel] = useState(1);
     const [isPlaying, setIsPlaying] = useState(false);
     const [timeLeft, setTimeLeft] = useState(150);
+    const [activeHoles, setActiveHoles] = useState({});
     const timerRef = useRef(null);
+    const moleTimerRef = useRef(null);
     const gridSize = level+1;
     
     const startGame = () => {
@@ -16,26 +18,67 @@ export default function GamePage() {
 
         setIsPlaying(true);
         setTimeLeft(150);
+        setActiveHoles({});
 
         timerRef.current = setInterval(() => {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
-                    clearInterval(timerRef.current);
-                    timerRef.current = null;
-                    setIsPlaying(false);
+                    stopGame();
                     return 0;
                 }
                 return prev - 1;
             });
         }, 100);
+
+        moleTimerRef.current = setInterval(() => {
+            spawnItem();
+        }, 700);
     };
 
     const stopGame = () => {
         setIsPlaying(false);
+
         if (timerRef.current) {
             clearInterval(timerRef.current);
             timerRef.current = null;
         }
+
+        if (moleTimerRef.current) {
+            clearInterval(moleTimerRef.current);
+            moleTimerRef.current = null;
+        }
+
+        setActiveHoles({});
+    };
+
+    const spawnItem = () => {
+        const totalHoles = gridSize * gridSize;
+        const randomIndex = Math.floor(Math.random() * totalHoles);
+        const itemType = Math.random() < 0.2 ? 'bomb' : 'mole';
+
+        setActiveHoles((prev) => ({
+            ...prev,
+            [randomIndex]: itemType,
+        }));
+
+        setTimeout(() => {
+            setActiveHoles((prev) => {
+                const newState = { ...prev };
+                delete newState[randomIndex];
+                return newState;
+            });
+        }, 1000); 
+    };
+
+    const handleHoleClick = (index) => {
+        const currentItem = activeHoles[index];
+
+        if (currentItem === 'mole') {
+            setActiveHoles((prev) => ({
+                ...prev,
+                [index]: 'hit',
+            }));
+        } 
     };
         return (
         <>
@@ -57,7 +100,7 @@ export default function GamePage() {
                     stopGame={stopGame}
                 >
                 </GameController>
-                <GameBoard gridSize={gridSize} />
+                <GameBoard gridSize={gridSize} activeHoles={activeHoles} onHoleClick={handleHoleClick} />
 
             </GameSection>
         </>
