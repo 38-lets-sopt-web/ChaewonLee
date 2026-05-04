@@ -2,13 +2,14 @@ import { createPortal } from 'react-dom';
 import styled from '@emotion/styled';
 
 export default function ResultModal({ score, isOpen }) {
-    if (!isOpen) return null; 
+    if (!isOpen) return null;
+    const isSuccess = score >= 0;
 
 
     return createPortal(
         <ModalOverlay>
             <ModalContent>
-                <Title>TIME OVER!</Title>
+                <Title>{isSuccess ? 'SUCCESS!' : 'FAIL!'}</Title>
                 <Message>당신의 최종 점수는?</Message>
                 <Score>{score}점</Score>
                 <SubMessage>3초 뒤에 게임이 초기화됩니다...</SubMessage>
@@ -56,7 +57,7 @@ const Message = styled.p`
 const Score = styled.div`
     font-size: ${({ theme }) => theme.typography.size.body};
     font-weight: ${({ theme }) => theme.typography.weight.regular};
-    color: ${({ theme }) => theme.colors.success};
+    color: ${({ isSuccess, theme }) => isSuccess ? theme.colors.success : theme.colors.error};
     margin: 20px 0;
 `;
 
