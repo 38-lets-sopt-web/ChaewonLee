@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { saveRanking } from '../utils/ranking'
 import {
     LEVEL_CONFIG,
     MOLE_VISIBLE_DURATION,
@@ -66,7 +67,7 @@ export default function useWhackAMole() {
         if (isTimeout) {
             clearAllTimers()
             setActiveHoles({})
-            if(score >= 0) saveRanking(score)
+            if(score >= 0) saveRanking('mole-rankings', { level, score, date: new Date().toLocaleString() })
             setIsPlaying(false)
             setIsModalOpen(true)
 
@@ -139,27 +140,6 @@ export default function useWhackAMole() {
             setScore((prev) => prev - 1)
             setFailCount((prev) => prev + 1)
             setMessage('땡!!!!')
-        }
-    }
-
-    const saveRanking = (finalScore) => {
-        const newRecord = {
-            level,
-            score: finalScore,
-            date: new Date().toLocaleString(),
-        }
-
-        try {
-            const existing = JSON.parse(
-                localStorage.getItem('mole-rankings') || '[]'
-            )
-
-            localStorage.setItem(
-                'mole-rankings',
-                JSON.stringify([...existing, newRecord])
-            )
-        } catch (e) {
-            console.error('ranking save error', e)
         }
     }
 
