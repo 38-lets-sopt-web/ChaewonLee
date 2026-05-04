@@ -63,10 +63,9 @@ export default function useWhackAMole() {
     }
 
     const stopGame = (isTimeout = false) => {
-        clearAllTimers()
-        setActiveHoles({})
-
         if (isTimeout) {
+            clearAllTimers()
+            setActiveHoles({})
             saveRanking(score)
             setIsPlaying(false)
             setIsModalOpen(true)
@@ -75,7 +74,7 @@ export default function useWhackAMole() {
                 setIsModalOpen(false)
             }, RESULT_DISPLAY_DURATION)
         } else {
-            setIsPlaying(false)
+            resetGame()
         }
     }
 
@@ -131,7 +130,7 @@ export default function useWhackAMole() {
             setSuccessCount((prev) => prev + 1)
             setMessage('두더지를 잡았다!')
         }
-        if (item === 'bomb') {
+        else if (item === 'bomb') {
             setActiveHoles((prev) => {
                 const next = { ...prev }
                 delete next[index]
@@ -143,10 +142,10 @@ export default function useWhackAMole() {
         }
     }
 
-    const saveRanking = (finalscore) => {
+    const saveRanking = (finalScore) => {
         const newRecord = {
             level,
-            score: finalscore,
+            score: finalScore,
             date: new Date().toLocaleString(),
         }
 
