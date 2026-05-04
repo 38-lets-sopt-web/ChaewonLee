@@ -66,7 +66,7 @@ export default function useWhackAMole() {
         if (isTimeout) {
             clearAllTimers()
             setActiveHoles({})
-            saveRanking(score)
+            if(score >= 0) saveRanking(score)
             setIsPlaying(false)
             setIsModalOpen(true)
 
