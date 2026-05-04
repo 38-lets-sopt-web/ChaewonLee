@@ -1,9 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
-    LEVEL_TIMES,
-    BOMB_PROBABILITY,
+    LEVEL_CONFIG,
     MOLE_VISIBLE_DURATION,
-    MOLE_SPAWN_INTERVAL,
     TIMER_TICK_INTERVAL,
     RESULT_DISPLAY_DURATION,
 } from '../constants/game'
@@ -11,62 +9,83 @@ import {
 export default function useWhackAMole() {
     const [level, setLevel] = useState(1)
     const [isPlaying, setIsPlaying] = useState(false)
-    const [timeLeft, setTimeLeft] = useState(150)
+    const [timeLeft, setTimeLeft] = useState(LEVEL_CONFIG[1].time)
     const [activeHoles, setActiveHoles] = useState({})
     const [score, setScore] = useState(0)
-    const [finalScore, setFinalScore] = useState(0)
     const [successCount, setSuccessCount] = useState(0)
     const [failCount, setFailCount] = useState(0)
     const [message, setMessage] = useState('두더지 잡기 준비~')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const timerRef = useRef(null)
     const moleTimerRef = useRef(null)
-    const isSavedRef = useRef(false)
-    const scoreRef = useRef(0)
-    const gridSize = level + 1
+
+    const config = LEVEL_CONFIG[level]
+    const gridSize = config.grid
+
+    // timeLetf가 0이 되면 게임 종료
+    // useRef로 score 값 저장하지 않기 위해 추가
+    useEffect(() => {
+        if (isPlaying && timeLeft <= 0) {
+            stopGame(true)
+        }
+    }, [timeLeft, isPlaying])
+
+    // 모달이 닫히면 게임 리셋
+    // useRef를 복제해서 사용하지 않기 위해 추가
+    useEffect(() => {
+        if (!isModalOpen) {
+            resetGame()
+        }
+    }, [isModalOpen])
 
     const handleLevelChange = (newLevel) => {
         if (isPlaying) return
         setLevel(newLevel)
-        setTimeLeft(LEVEL_TIMES[newLevel])
+        setTimeLeft(LEVEL_CONFIG[newLevel].time)
     }
 
-    const resetGame = () => {
+    function resetGame() {
         setIsPlaying(false)
         setScore(0)
-        scoreRef.current = 0
         setSuccessCount(0)
         setFailCount(0)
-        setTimeLeft(LEVEL_TIMES[level])
+        setTimeLeft(LEVEL_CONFIG[level].time)
         setMessage('두더지 잡기 준비~')
-        timerRef.current = null 
+        timerRef.current = null
         moleTimerRef.current = null
     }
 
     const stopGame = (isTimeout = false) => {
         clearInterval(timerRef.current)
         clearInterval(moleTimerRef.current)
+        timerRef.current = null
+        moleTimerRef.current = null
         setActiveHoles({})
-        if (isTimeout && !isSavedRef.current) {
-            isSavedRef.current = true
-            const fs = scoreRef.current 
-            setFinalScore(fs)
-            saveRanking(fs)
+
+        if (isTimeout) {
+            saveRanking(score)
+            setIsPlaying(false)
             setIsModalOpen(true)
+
             setTimeout(() => {
                 setIsModalOpen(false)
-                resetGame()
             }, RESULT_DISPLAY_DURATION)
-            return
+        } else {
+            setIsPlaying(false)
         }
-        resetGame()
     }
 
     const spawnItem = () => {
-        const totalHoles = gridSize * gridSize
+        const { grid, bombProbability } = config
+        const totalHoles = grid * grid
         const randomIndex = Math.floor(Math.random() * totalHoles)
-        const itemType = Math.random() < BOMB_PROBABILITY ? 'bomb' : 'mole'
-        setActiveHoles((prev) => ({ ...prev, [randomIndex]: itemType }))
+        const itemType = Math.random() < bombProbability ? 'bomb' : 'mole'
+
+        setActiveHoles((prev) => ({
+            ...prev,
+            [randomIndex]: itemType,
+        }))
+
         setTimeout(() => {
             setActiveHoles((prev) => {
                 const next = { ...prev }
@@ -79,31 +98,32 @@ export default function useWhackAMole() {
     const startGame = () => {
         if (timerRef.current) return
         setIsPlaying(true)
-        isSavedRef.current = false
-        setTimeLeft(LEVEL_TIMES[level])
+        setScore(0)
+        setSuccessCount(0)
+        setFailCount(0)
+        setTimeLeft(config.time)
         setActiveHoles({})
+
         timerRef.current = setInterval(() => {
             setTimeLeft((prev) => {
-                if (prev <= 1) {
-                    stopGame(true)
-                    return 0
-                }
+                if (prev <= 1) return 0
                 return prev - 1
             })
         }, TIMER_TICK_INTERVAL)
-        moleTimerRef.current = setInterval(spawnItem, MOLE_SPAWN_INTERVAL)
+
+        moleTimerRef.current = setInterval(
+            spawnItem,
+            config.spawnInterval
+        )
     }
 
     const handleHoleClick = (index) => {
         if (!isPlaying) return
         const item = activeHoles[index]
+        
         if (item === 'mole') {
             setActiveHoles((prev) => ({ ...prev, [index]: 'hit' }))
-            setScore((prev) => {
-                const next = prev + 1
-                scoreRef.current = next
-                return next
-            })
+            setScore((prev) => prev + 1)
             setSuccessCount((prev) => prev + 1)
             setMessage('두더지를 잡았다!')
         }
@@ -113,33 +133,47 @@ export default function useWhackAMole() {
                 delete next[index]
                 return next
             })
-            setScore((prev) => {
-                const next = prev - 1
-                scoreRef.current = next
-                return next
-            })
+            setScore((prev) => prev - 1)
             setFailCount((prev) => prev + 1)
             setMessage('땡!!!!')
         }
     }
 
-    const saveRanking = (finalScore) => {
+    const saveRanking = (finalscore) => {
         const newRecord = {
             level,
-            score: finalScore,
-            date: new Date().toLocaleString()
+            score: finalscore,
+            date: new Date().toLocaleString(),
         }
+
         try {
-            const existing = JSON.parse(localStorage.getItem('mole-rankings') || '[]')
-            localStorage.setItem('mole-rankings', JSON.stringify([...existing, newRecord]))
+            const existing = JSON.parse(
+                localStorage.getItem('mole-rankings') || '[]'
+            )
+
+            localStorage.setItem(
+                'mole-rankings',
+                JSON.stringify([...existing, newRecord])
+            )
         } catch (e) {
             console.error('ranking save error', e)
         }
     }
 
     return {
-        level, isPlaying, timeLeft, activeHoles, score, finalScore,
-        successCount, failCount, message, isModalOpen, gridSize,
-        handleLevelChange, startGame, stopGame, handleHoleClick,
+        level,
+        isPlaying,
+        timeLeft,
+        activeHoles,
+        score,
+        successCount,
+        failCount,
+        message,
+        isModalOpen,
+        gridSize,
+        handleLevelChange,
+        startGame,
+        stopGame,
+        handleHoleClick,
     }
 }

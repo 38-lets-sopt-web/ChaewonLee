@@ -1,44 +1,53 @@
-    import styled from '@emotion/styled'
-    import useWhackAMole from '../hooks/useWhackAMole'
-    import InfoCard from '../components/InfoCard'
-    import GameController from '../components/GameController'
-    import GameBoard from '../components/GameBoard'
-    import ResultModal from '../components/ResultModal'
+import styled from '@emotion/styled'
+import useWhackAMole from '../hooks/useWhackAMole'
+import InfoCard from '../components/InfoCard'
+import GameController from '../components/GameController'
+import GameBoard from '../components/GameBoard'
+import ResultModal from '../components/ResultModal'
 
-    export default function GamePage() {
+export default function GamePage() {
     const game = useWhackAMole()
 
     return (
         <>
-        <SideSection>
-            <InfoCard title="남은 시간" value={(game.timeLeft / 10).toFixed(1)} />
-            <InfoCard title="총 점수" value={game.score} />
-            <StatusGroup>
-            <InfoCard title="성공" value={game.successCount} />
-            <InfoCard title="실패" value={game.failCount} />
-            </StatusGroup>
-            <InfoCard title="안내 메세지" value={game.message} />
-        </SideSection>
+            <SideSection>
+                <InfoCard
+                    title="남은 시간"
+                    value={(game.timeLeft / 10).toFixed(1)}
+                />
+                <InfoCard title="총 점수" value={game.score} />
 
-        <GameSection>
-            <GameController
-            level={game.level}
-            setLevel={game.handleLevelChange}
-            isPlaying={game.isPlaying}
-            startGame={game.startGame}
-            stopGame={() => game.stopGame(false)}
-            />
-            <GameBoard
-            gridSize={game.gridSize}
-            activeHoles={game.activeHoles}
-            onHoleClick={game.handleHoleClick}
-            />
-        </GameSection>
+                <StatusGroup>
+                    <InfoCard title="성공" value={game.successCount} />
+                    <InfoCard title="실패" value={game.failCount} />
+                </StatusGroup>
 
-        <ResultModal score={game.finalScore} isOpen={game.isModalOpen} />
+                <InfoCard title="안내 메세지" value={game.message} />
+            </SideSection>
+
+            <GameSection>
+                <GameController
+                    level={game.level}
+                    setLevel={game.handleLevelChange}
+                    isPlaying={game.isPlaying}
+                    startGame={game.startGame}
+                    stopGame={game.stopGame} 
+                />
+
+                <GameBoard
+                    gridSize={game.gridSize}
+                    activeHoles={game.activeHoles}
+                    onHoleClick={game.handleHoleClick}
+                />
+            </GameSection>
+
+            <ResultModal
+                score={game.score}
+                isOpen={game.isModalOpen}
+            />
         </>
     )
-    }
+}
 
     const SideSection = styled.section`
     display: flex;
