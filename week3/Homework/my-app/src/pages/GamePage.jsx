@@ -35,7 +35,7 @@
             />
         </GameSection>
 
-        <ResultModal score={game.score} isOpen={game.isModalOpen} />
+        <ResultModal score={game.finalScore} isOpen={game.isModalOpen} />
         </>
     )
     }
