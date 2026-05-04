@@ -44,22 +44,26 @@ export default function useWhackAMole() {
         setTimeLeft(LEVEL_CONFIG[newLevel].time)
     }
 
+    const clearAllTimers = () => {
+        if (timerRef.current) clearInterval(timerRef.current)
+        if (moleTimerRef.current) clearInterval(moleTimerRef.current)
+        timerRef.current = null
+        moleTimerRef.current = null
+    }
+
     function resetGame() {
+        clearAllTimers()
+        setActiveHoles({})
         setIsPlaying(false)
         setScore(0)
         setSuccessCount(0)
         setFailCount(0)
         setTimeLeft(LEVEL_CONFIG[level].time)
         setMessage('두더지 잡기 준비~')
-        timerRef.current = null
-        moleTimerRef.current = null
     }
 
     const stopGame = (isTimeout = false) => {
-        clearInterval(timerRef.current)
-        clearInterval(moleTimerRef.current)
-        timerRef.current = null
-        moleTimerRef.current = null
+        clearAllTimers()
         setActiveHoles({})
 
         if (isTimeout) {
