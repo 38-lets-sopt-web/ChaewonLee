@@ -1,10 +1,10 @@
 import './styles/globalStyle.css'
+import AppRouter from './routes/AppRouter'
 
 function App() {
 
   return (
-    <div>초기 세팅</div>
-
+    <AppRouter />
   )
 }
 
