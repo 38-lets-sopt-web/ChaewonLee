@@ -48,4 +48,9 @@ export const [ themeClass, vars ] = createTheme({
         },
     },
 
+    borderRadius: {
+        sm: '8px',
+        md: '12px',
+    }
+
 })
