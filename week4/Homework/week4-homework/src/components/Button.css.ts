@@ -17,5 +17,6 @@ export const button = style({
 
     ':hover': {
         backgroundColor: vars.colors.primary[600],
+        transition: 'all 0.2s ease',
     }
 })
