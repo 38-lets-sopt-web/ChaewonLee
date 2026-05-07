@@ -6,6 +6,10 @@ globalStyle('*', {
     boxSizing: 'border-box'
 })
 
+globalStyle('body', {
+    backgroundColor: '#FFE3EA',
+})
+
 globalStyle('button', {
     border: 'none',
     background: 'none',
