@@ -87,6 +87,10 @@ export default function Signup() {
                 ...form,
                 age: Number(form.age),
             })
+
+            alert(`${form.name}님 회원가입 성공!`)
+            navigate('/login')
+            
         } catch (error) {
             console.error(error)
         }
