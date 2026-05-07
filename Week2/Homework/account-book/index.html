@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LETS SOPT 2주차 실습 과제</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/style.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__left">
+        <button type="button" class="header__refresh-btn" id="header__icon" aria-label="새로고침">🍀</button>
+      </div>
+      <div class="header__center">
+        <h1 class="header__title">채원이의 가계부</h1>
+      </div>
+      <div class="header__right">
+        <span class="header__info">SOPT 38th WEB</span>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="search-filter">
+        <h2 class="search-filter__title">검색 필터</h2>
+        <form class="search-filter__form">
+          <div class="search-filter__item search-filter__item--full">
+            <label class="search-filter__label" for="filter-name">제목</label>
+            <input class="search-filter__input" type="text" id="filter-name" placeholder="내역을 입력하세요">
+          </div>
+          <div class="search-filter__item">
+            <label class="search-filter__label">유형</label>
+            <select id="filter-type" class="search-filter__select">
+              <option value="전체">전체</option>
+              <option value="수입">수입</option>
+              <option value="지출">지출</option>
+            </select>
+          </div>
+          <div class="search-filter__item">
+            <label class="search-filter__label">카테고리</label>
+            <select id="filter-category" class="search-filter__select">
+              <option value="전체">전체</option>
+              <option value="식비">식비</option>
+              <option value="월급">월급</option>
+              <option value="문화">문화</option>
+              <option value="교통">교통</option>
+              <option value="생활">생활</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <div class="search-filter__item">
+            <label class="search-filter__label">결제수단</label>
+            <select id="filter-payment" class="search-filter__select">
+              <option value="전체">전체</option>
+              <option value="신용카드">신용카드</option>
+              <option value="체크카드">체크카드</option>
+              <option value="현금">현금</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <button type="submit" class="btn search-filter__btn--apply">적용</button>
+          <button type="reset" class="btn search-filter__btn--reset">초기화</button>
+        </form>
+      </section>
+
+      <section class="account-list">
+        <div class="account-list__header">
+          <select class="account-list__sort">
+            <option value="latest">날짜 내림차순</option>
+            <option value="oldest">날짜 오름차순</option>
+          </select>
+          <div class="account-list__buttons">
+            <button type="button" class="btn btn-action--delete">선택 삭제</button>
+            <button type="button" class="btn btn-action--add">추가</button>
+          </div>
+        </div>
+
+        <table class="account-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="check-all"></th>
+              <th>제목</th>
+              <th>금액</th>
+              <th>날짜</th>
+              <th>카테고리</th>
+              <th>결제수단</th>
+            </tr>
+          </thead>
+          <tbody id="expense-list-body"></tbody>
+          <tfoot>
+            <tr class="account-table__total">
+              <td colspan="2">total</td>
+              <td colspan="4" id="total-amount" class="total-plus">+0</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+  <div id="add-modal" class="modal">
+    <div class="modal__content">
+      <div class="modal__header">
+        <h3 class="modal__title">내역 추가</h3>
+        <button type="button" id="modal-close" class="modal__close-btn">X</button>
+      </div>
+      <form id="add-form" class="modal__form">
+        <div class="modal__item">
+          <label for="add-title">제목</label>
+          <input type="text" id="add-title" placeholder="제목을 입력하세요">
+        </div>
+        <div class="modal__item">
+          <label>유형</label>
+          <div class="modal__type-selector">
+            <label><input type="radio" name="add-type" value="수입" checked> 수입</label>
+            <label><input type="radio" name="add-type" value="지출"> 지출</label>
+          </div>
+        </div>
+        <div class="modal__item">
+          <label for="add-amount">금액</label>
+          <input type="number" id="add-amount" placeholder="금액을 입력하세요">
+        </div>
+        <div class="modal__item">
+          <label for="add-date">날짜</label>
+          <input type="date" id="add-date">
+        </div>
+        <div class="modal__item">
+          <label for="add-category">카테고리</label>
+          <select id="add-category">
+            <option value="">선택하세요</option>
+            <option value="식비">식비</option>
+            <option value="월급">월급</option>
+            <option value="문화">문화</option>
+            <option value="교통">교통</option>
+            <option value="생활">생활</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+        <div class="modal__item">
+          <label for="add-payment">결제수단</label>
+          <select id="add-payment">
+            <option value="">선택하세요</option>
+            <option value="신용카드">신용카드</option>
+            <option value="체크카드">체크카드</option>
+            <option value="현금">현금</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+        <button type="submit" class="btn modal__submit-btn">추가</button>
+      </form>
+    </div>
+  </div>
+</html>
