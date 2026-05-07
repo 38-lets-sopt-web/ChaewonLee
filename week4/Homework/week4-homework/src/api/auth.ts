@@ -18,3 +18,15 @@ export const signup = async (form: SignupForm) => {
 
     return response.data
 }
+
+export const signin = async (form: {
+    loginId: string
+    password: string
+}) => {
+    const response = await instance.post(
+        '/api/v1/auth/signin',
+        form
+    )
+
+    return response.data
+}
