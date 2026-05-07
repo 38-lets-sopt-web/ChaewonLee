@@ -1,3 +1,5 @@
+import './styles/globalStyle.css'
+
 function App() {
 
   return (
