@@ -83,14 +83,11 @@ export default function Signup() {
 
     const submitSignup = async () => {
         try {
-            const data = await signup({
-                ...form,
-                age: Number(form.age),
-            })
+            const data = await signup(form)
 
             alert(`${form.name}님 회원가입 성공!`)
             navigate('/login')
-            
+
         } catch (error) {
             console.error(error)
         }
