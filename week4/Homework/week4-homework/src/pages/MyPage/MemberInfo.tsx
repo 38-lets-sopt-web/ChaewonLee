@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { getUserInfo } from "../../api/user";
+import MemberCard from "./components/MemberCard";
+import { getUserInfo, getUserList } from "../../api/user";
 import * as styles from "./MemberInfo.css";
 
 type UserInfo = {
@@ -15,6 +16,21 @@ type UserInfo = {
 export default function MemberInfo() {
     const [memberId, setMemberId] = useState("");
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const data = await getUserList();
+                setUsers(data);
+            } catch (error) {
+                alert("유저 목록 조회 실패");
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     const handleSearch = async () => {
         if (!memberId) return;
@@ -78,6 +94,7 @@ export default function MemberInfo() {
                         <p className={styles.infoLabel}>파트</p>
                         <p className={styles.infoText}>{userInfo.part}</p>
                     </div>
+
                 </div>
             )}
 
@@ -87,6 +104,15 @@ export default function MemberInfo() {
                     원하는 ID를 검색해 보세요
                 </div>
             )}
+
+            <div className={styles.listSection}>
+                <h3>전체 멤버 리스트</h3>
+                <div className={styles.cardList}>
+                    {users.map((user) => (
+                        <MemberCard key={user.id} user={user} />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

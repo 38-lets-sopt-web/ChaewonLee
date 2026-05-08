@@ -7,8 +7,8 @@ export const memberInfoContainer = style({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center', 
-    height: '80vh',
     gap: '32px',
+    paddingTop: '40px', 
 })
 
 export const searchSection = style({
@@ -41,4 +41,16 @@ export const infoLabel = style({
 export const infoText = style({
     ...typography.body,
     color: vars.colors.primary[500]
+})
+
+export const listSection = style({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+})
+
+export const cardList = style({
+    display: 'grid',
+    gridTemplateColumns: 'repeat(5, 1fr)',
+    gap: '16px',
 })
