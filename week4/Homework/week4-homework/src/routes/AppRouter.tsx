@@ -4,6 +4,7 @@ import Signup from '../pages/Signup'
 import MyPage from '../pages/MyPage'
 import MyInfo from '../pages/MyPage/MyInfo'
 import MemberInfo from '../pages/MyPage/MemberInfo'
+import MemberDetail from '../pages/MyPage/MemberDetail'
 
 
 export default function AppRouter () {
@@ -14,6 +15,7 @@ export default function AppRouter () {
             <Route path="/mypage" element={<MyPage />}>
                 <Route index element={<MyInfo />} />
                 <Route path="members" element={<MemberInfo />} />
+                <Route path="members/:id" element={<MemberDetail />} />
             </Route>
         </Routes>
     )
