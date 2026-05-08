@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { wrapper, loginLink } from './Signup.css'
+import { wrapper } from './Signup.css'
 import Button from '../../components/Button'
 import type { SignupForm } from '../../types/auth'
 import { signup } from '../../api/auth'
@@ -140,12 +140,11 @@ export default function Signup() {
                 {step === 2 ? '회원가입' : '다음'}
             </Button>
 
-            <p>
-                이미 계정이 있나요?{' '}
-                <span onClick={() => navigate('/login')} className={loginLink}>
-                    로그인
-                </span>
-            </p>
+            <Button
+                variant="ghost"
+                onClick={() => navigate('/login')}>
+                이미 계정이 있나요? 로그인
+            </Button>
         </div>
     )
 }

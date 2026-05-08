@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css'
-import { vars } from '../../styles/theme.css'
 
 export const wrapper = style({
     display: 'flex',
@@ -8,8 +7,4 @@ export const wrapper = style({
     justifyContent: 'center',
     alignItems: 'center',
     gap: '32px'
-})
-
-export const loginLink = style({
-    color: vars.colors.primary[500],
 })
