@@ -1,18 +1,27 @@
+import { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { getUserInfo, updateUserInfo } from "../../api/user";
-import { useState, useEffect } from "react";
+import { getUserInfo, updateUserInfo } from "@/api/user";
+import type { User } from "@/types/user";
+import UserInfoList from "./components/UserInfoList";
 import * as styles from "./MyInfo.css";
 
+type EditableUserInfo = Omit<User, "age"> & {
+    age: string;
+};
+
+const initialUserInfo: EditableUserInfo = {
+    id: 0,
+    loginId: "",
+    part: "",
+    name: "",
+    email: "",
+    age: "",
+};
+
 export default function MyInfo() {
-    const userId = Number(localStorage.getItem('userId'))
-    const [userInfo, setUserInfo] = useState({
-        loginId: "",
-        part: "",
-        name: "",
-        email: "",
-        age: "",
-    });
+    const userId = Number(localStorage.getItem("userId"));
+    const [userInfo, setUserInfo] = useState<EditableUserInfo>(initialUserInfo);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -24,9 +33,7 @@ export default function MyInfo() {
     };
 
     const handleSubmit = async () => {
-        if (!userInfo) return;
-
-        const userId = Number(localStorage.getItem("userId"));
+        if (!userId) return;
 
         try {
             await updateUserInfo(userId, {
@@ -36,10 +43,10 @@ export default function MyInfo() {
             });
 
             alert("수정 완료");
-            } catch (error) {
-                alert("수정 실패");
-                console.log(error)
-            }
+        } catch (error) {
+            alert("수정 실패");
+            console.error(error);
+        }
     };
 
     useEffect(() => {
@@ -48,36 +55,28 @@ export default function MyInfo() {
         const fetchUser = async () => {
             try {
                 const data = await getUserInfo(userId);
-                setUserInfo(data);
-                console.log(data);
+                setUserInfo({
+                    ...data,
+                    age: String(data.age),
+                });
             } catch (error) {
                 alert("유저 조회 실패");
+                console.error(error);
             }
         };
 
         fetchUser();
-    }, []);
+    }, [userId]);
 
     return (
         <div className={styles.userInfoContainer}>
             <h1>내 정보</h1>
 
-            {/* 읽기 전용 영역 */}
-            <div className={styles.readOnlySection}>
+            <UserInfoList
+                user={{ ...userInfo, age: Number(userInfo.age) }}
+                fields={["loginId", "part"]}
+            />
 
-                <div className={styles.infoItem}>
-                    <p className={styles.infoLabel}>아이디</p>
-                    <p className={styles.infoText}>{userInfo.loginId}</p>
-                </div>
-
-                <div className={styles.infoItem}>
-                    <p className={styles.infoLabel}>파트</p>
-                    <p className={styles.infoText}>{userInfo.part}</p>
-
-                </div>
-            </div>
-
-            {/* 수정 영역 */}
             <div className={styles.editableSection}>
                 <Input
                     name="name"

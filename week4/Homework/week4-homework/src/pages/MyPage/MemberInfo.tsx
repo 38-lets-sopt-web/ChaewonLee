@@ -1,22 +1,15 @@
 import { useState, useEffect } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { getUserInfo, getUserList } from "@/api/user";
+import type { User } from "@/types/user";
 import MemberCard from "./components/MemberCard";
-import { getUserInfo, getUserList } from "../../api/user";
+import UserInfoList from "./components/UserInfoList";
 import * as styles from "./MemberInfo.css";
-
-type UserInfo = {
-    loginId: string;
-    name: string;
-    email: string;
-    age: number;
-    part: string;
-};
 
 export default function MemberInfo() {
     const [memberId, setMemberId] = useState("");
-    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-
+    const [userInfo, setUserInfo] = useState<User | null>(null);
     const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
@@ -40,6 +33,7 @@ export default function MemberInfo() {
             setUserInfo(data);
         } catch (error) {
             alert("유저 조회 실패");
+            setUserInfo(null);
         }
     };
 
@@ -47,7 +41,6 @@ export default function MemberInfo() {
         <div className={styles.memberInfoContainer}>
             <h1>회원 조회</h1>
 
-            {/* 입력 영역 */}
             <div className={styles.searchSection}>
                 <Input
                     type="number"
@@ -66,41 +59,10 @@ export default function MemberInfo() {
                 </Button>
             </div>
 
-            {/* 결과 영역 */}
-            {userInfo && (
-                <div className={styles.readOnlySection}>
-
-                    <div className={styles.infoItem}>
-                        <p className={styles.infoLabel}>아이디</p>
-                        <p className={styles.infoText}>{userInfo.loginId}</p>
-                    </div>
-
-                    <div className={styles.infoItem}>
-                        <p className={styles.infoLabel}>이름</p>
-                        <p className={styles.infoText}>{userInfo.name}</p>
-                    </div>
-
-                    <div className={styles.infoItem}>
-                        <p className={styles.infoLabel}>이메일</p>
-                        <p className={styles.infoText}>{userInfo.email}</p>
-                    </div>
-
-                    <div className={styles.infoItem}>
-                        <p className={styles.infoLabel}>나이</p>
-                        <p className={styles.infoText}>{userInfo.age}</p>
-                    </div>
-
-                    <div className={styles.infoItem}>
-                        <p className={styles.infoLabel}>파트</p>
-                        <p className={styles.infoText}>{userInfo.part}</p>
-                    </div>
-
-                </div>
-            )}
-
-            {/* 결과 없을 때 */}
-            {!userInfo && (
-                <div className={styles.readOnlySection}>
+            {userInfo ? (
+                <UserInfoList user={userInfo} />
+            ) : (
+                <div className={styles.emptySection}>
                     원하는 ID를 검색해 보세요
                 </div>
             )}
