@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
-import { wrapper } from './Login.css'
+import * as styles from './Login.css'
 import { signin } from '../../api/auth'
 
 export default function Login() {
@@ -23,7 +23,7 @@ export default function Login() {
         }
 
     const isDisabled =
-        form.loginId.trim() === '' || form.password.trim() === ''
+        form.loginId.trim() === '' || form.password.length === 0
 
     const submitLogin = async () => {
         try {
@@ -42,7 +42,7 @@ export default function Login() {
         }
     }
     return (
-        <div className={wrapper}>
+        <div className={styles.wrapper}>
             <h1>로그인</h1>
 
             <Input
@@ -67,9 +67,12 @@ export default function Login() {
                 로그인
             </Button>
 
-            <button onClick={() => navigate('/signup')}>
+            <Button
+                variant = "ghost"
+                onClick={() => navigate('/signup')}
+            >
                 회원가입
-            </button>
+            </Button>
         </div>
     )
 }

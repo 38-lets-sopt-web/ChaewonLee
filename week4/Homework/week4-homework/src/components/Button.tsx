@@ -1,5 +1,7 @@
 import React from 'react'
-import { button } from './Button.css'
+import { button, ghostButton } from './Button.css'
+
+type ButtonVariant = 'primary' | 'ghost'
 
 type ButtonProps = {
     children: React.ReactNode
@@ -7,6 +9,12 @@ type ButtonProps = {
     type?: 'button' | 'submit'
     className?: string
     disabled?: boolean
+    variant?: ButtonVariant
+}
+
+const variantStyles: Record<ButtonVariant, string> = {
+    primary: button,
+    ghost: ghostButton,
 }
 
 export default function Button({
@@ -15,13 +23,14 @@ export default function Button({
     type = 'button',
     className,
     disabled = false,
+    variant = 'primary',
 }: ButtonProps) {
-    return(
+    return (
         <button
             type={type}
             onClick={onClick}
             disabled={disabled}
-            className={`${button} ${className ?? ''}`.trim()}
+            className={`${variantStyles[variant]} ${className ?? ''}`.trim()}
         >
             {children}
         </button>
