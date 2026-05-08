@@ -1,6 +1,7 @@
 import { instance } from './axios'
+import type { UpdateUserRequest, User } from '@/types/user'
 
-export const getUserInfo = async (userId: number) => {
+export const getUserInfo = async (userId: number): Promise<User> => {
     const res = await instance.get(`/api/v1/users/${userId}`);
     const { success, message, data } = res.data;
 
@@ -13,17 +14,13 @@ export const getUserInfo = async (userId: number) => {
 
 export const updateUserInfo = async (
     userId: number,
-    data: {
-        name: string;
-        email: string;
-        age: number;
-    }
+    data: UpdateUserRequest
 ) => {
     const res = await instance.patch(`/api/v1/users/${userId}`, data);
     return res.data;
 };
 
-export const getUserList = async () => {
+export const getUserList = async (): Promise<User[]> => {
     const res = await instance.get("/api/v1/users");
     const { success, message, data } = res.data;
 
