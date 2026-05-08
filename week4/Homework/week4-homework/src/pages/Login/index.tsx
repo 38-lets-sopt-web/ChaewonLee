@@ -32,7 +32,7 @@ export default function Login() {
                 password: form.password,
             })
 
-            localStorage.setItem('userId', form.loginId)
+            localStorage.setItem('userId', data.data.userId)
 
             alert('로그인 성공!')
             navigate('/mypage')
