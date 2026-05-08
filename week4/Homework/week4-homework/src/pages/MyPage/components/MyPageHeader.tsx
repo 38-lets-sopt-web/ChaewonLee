@@ -7,11 +7,13 @@ interface MyPageHeaderProps {
 
 export default function MyPageHeader({name}:MyPageHeaderProps) {
     const navigate = useNavigate()
+
     const handleLogout = () => {
-        return(
-            alert("로그아웃 핸들러")
-        )
+        localStorage.removeItem('userId');
+        alert("로그아웃 완료")
+        navigate('/login')
     }
+    
     return(
         <header className={styles.header}>
             {/* 헤더의 왼쪽 영역: 유저 이름 출력 */}
