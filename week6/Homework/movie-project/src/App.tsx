@@ -1,9 +1,7 @@
-function App() {
-  return (
-    <main className="min-h-screen bg-primary-50 px-8 py-10 text-gray-900">
-      <h1 className="text-display font-bold text-primary-600">Movie Project</h1>
-    </main>
-  )
-}
+import { RouterProvider } from 'react-router-dom'
+
+import { router } from './routes/router'
+
+const App = () => <RouterProvider router={router} />
 
 export default App
