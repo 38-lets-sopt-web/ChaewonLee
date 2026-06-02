@@ -31,7 +31,6 @@ interface MovieList {
   page: number
   results: MovieCardItem[]
   totalPages: number
-  totalResults: number
 }
 
 export const getMovieList = async ({
@@ -62,6 +61,5 @@ export const getMovieList = async ({
       .filter((movie) => !movie.adult)
       .map(toMovieCardItem),
     totalPages: response.total_pages,
-    totalResults: response.total_results,
   } satisfies MovieList
 }
