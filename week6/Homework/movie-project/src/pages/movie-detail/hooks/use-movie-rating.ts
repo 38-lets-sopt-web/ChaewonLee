@@ -11,7 +11,7 @@ const MIN_RATING = 0.5
 const MAX_RATING = 10
 
 const isValidRating = (rating: number) =>
-  rating >= MIN_RATING && rating <= MAX_RATING
+  Number.isFinite(rating) && rating >= MIN_RATING && rating <= MAX_RATING
 
 const createMovieRatingQueryKey = (movieId: number | null) =>
   ['movies', 'rating', movieId] as const
@@ -36,12 +36,9 @@ export const useMovieRating = (movieId: number | null) => {
     enabled: movieId !== null,
   })
 
+  const serverRating = ratingQuery.data != null ? String(ratingQuery.data) : ''
   const rating =
-    ratingInput?.movieId === movieId
-      ? ratingInput.value
-      : ratingQuery.data === null || ratingQuery.data === undefined
-        ? ''
-        : String(ratingQuery.data)
+    ratingInput?.movieId === movieId ? ratingInput.value : serverRating
 
   const addRatingMutation = useMutation({
     mutationFn: (ratingValue: number) => {
@@ -55,6 +52,9 @@ export const useMovieRating = (movieId: number | null) => {
       setRatingInput(null)
       queryClient.setQueryData(createMovieRatingQueryKey(movieId), ratingValue)
       setMessage('별점이 저장되었습니다.')
+    },
+    onError: () => {
+      setMessage('별점 저장 중 오류가 발생했습니다.')
     },
   })
 
@@ -70,6 +70,9 @@ export const useMovieRating = (movieId: number | null) => {
       setRatingInput({ movieId, value: '' })
       queryClient.setQueryData(createMovieRatingQueryKey(movieId), null)
       setMessage('별점이 삭제되었습니다.')
+    },
+    onError: () => {
+      setMessage('별점 삭제 중 오류가 발생했습니다.')
     },
   })
 
