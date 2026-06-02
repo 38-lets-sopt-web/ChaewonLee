@@ -3,6 +3,9 @@ import { http } from '../../../libs/http'
 import type { MovieResponse } from '../../../types/movie'
 
 const GUEST_SESSION_STORAGE_KEY = 'movie-project-guest-session-id'
+const GUEST_SESSION_EXPIRY_BUFFER_MS = 60_000
+
+let pendingGuestSession: Promise<string> | null = null
 
 interface GuestSessionResponse {
   success: boolean
@@ -58,7 +61,9 @@ const getStoredGuestSession = () => {
     const parsedGuestSession = JSON.parse(
       storedGuestSession,
     ) as StoredGuestSession
-    const isExpired = new Date(parsedGuestSession.expiresAt) <= new Date()
+    const isExpired =
+      new Date(parsedGuestSession.expiresAt) <=
+      new Date(Date.now() + GUEST_SESSION_EXPIRY_BUFFER_MS)
 
     if (isExpired) {
       localStorage.removeItem(GUEST_SESSION_STORAGE_KEY)
@@ -79,18 +84,37 @@ const getGuestSessionId = async () => {
     return guestSessionId
   }
 
-  return createGuestSession()
+  if (pendingGuestSession === null) {
+    pendingGuestSession = createGuestSession().finally(() => {
+      pendingGuestSession = null
+    })
+  }
+
+  return pendingGuestSession
 }
 
 export const getMovieRating = async (movieId: number) => {
   const guestSessionId = await getGuestSessionId()
-  const response = await http.get<RatedMovieListResponse>(
-    API_ENDPOINTS.MOVIES.RATED_MOVIES(guestSessionId),
-  )
+  let page = 1
 
-  const ratedMovie = response.results.find((movie) => movie.id === movieId)
+  while (true) {
+    const response = await http.get<RatedMovieListResponse>(
+      API_ENDPOINTS.MOVIES.RATED_MOVIES(guestSessionId),
+      { page },
+    )
 
-  return ratedMovie?.rating ?? null
+    const ratedMovie = response.results.find((movie) => movie.id === movieId)
+
+    if (ratedMovie !== undefined) {
+      return ratedMovie.rating
+    }
+
+    if (page >= response.total_pages) {
+      return null
+    }
+
+    page += 1
+  }
 }
 
 export const addMovieRating = async (movieId: number, rating: number) => {
