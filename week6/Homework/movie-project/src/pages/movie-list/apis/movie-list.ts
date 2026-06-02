@@ -27,7 +27,7 @@ interface GetMovieListParams {
   page?: number
 }
 
-interface MovieListResult {
+interface MovieList {
   page: number
   results: MovieCardItem[]
   totalPages: number
@@ -40,6 +40,8 @@ export const getMovieList = async ({
   page = 1,
 }: GetMovieListParams = {}) => {
   const params = {
+    include_adult: false,
+    include_video: false,
     page,
     sort_by: 'popularity.desc',
     ...(minRating !== undefined && { 'vote_average.gte': minRating }),
@@ -55,8 +57,10 @@ export const getMovieList = async ({
 
   return {
     page: response.page,
-    results: response.results.map(toMovieCardItem),
+    results: response.results
+      .filter((movie) => !movie.adult)
+      .map(toMovieCardItem),
     totalPages: response.total_pages,
     totalResults: response.total_results,
-  } satisfies MovieListResult
+  } satisfies MovieList
 }

@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 import type { MovieRatingFilterValue } from '../../../types/movie'
-import { getMovieList } from '../apis/movie'
+import { getMovieList } from '../apis/movie-list'
 
 export const useMovieListQuery = (ratingFilter: MovieRatingFilterValue) => {
   const query = useInfiniteQuery({
