@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { ROUTES } from '../../routes/paths'
@@ -9,10 +8,17 @@ import MovieRatingPanel from './components/movie-rating-panel'
 import { useMovieDetailQuery } from './hooks/use-movie-detail-query'
 import { useMovieRating } from './hooks/use-movie-rating'
 
+const parseMovieId = (movieId: string | undefined) => {
+  if (movieId === undefined) return null
+
+  const parsedMovieId = Number(movieId)
+
+  return Number.isNaN(parsedMovieId) ? null : parsedMovieId
+}
+
 const MovieDetailPage = () => {
   const { movieId } = useParams()
-  const parsedMovieId = movieId === undefined ? NaN : Number(movieId)
-  const numericMovieId = Number.isNaN(parsedMovieId) ? null : parsedMovieId
+  const numericMovieId = parseMovieId(movieId)
   const { data: movie, isError, isLoading } =
     useMovieDetailQuery(numericMovieId)
   const {
@@ -25,13 +31,6 @@ const MovieDetailPage = () => {
     saveRating,
     setRating,
   } = useMovieRating(numericMovieId)
-
-  const handleChangeRating = useCallback(
-    (nextRating: string) => {
-      setRating(nextRating)
-    },
-    [setRating],
-  )
 
   return (
     <main className="mx-auto max-w-[1120px] px-8 py-10">
@@ -63,7 +62,7 @@ const MovieDetailPage = () => {
               isLoadingRating={isLoadingRating}
               isSavingRating={isSavingRating}
               message={message}
-              onChangeRating={handleChangeRating}
+              onChangeRating={setRating}
               onDeleteRating={deleteRating}
               onSaveRating={saveRating}
               rating={rating}
