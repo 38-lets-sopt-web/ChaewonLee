@@ -13,10 +13,15 @@ export const useInfiniteScroll = ({
 }: UseInfiniteScrollParams) => {
   const targetRef = useRef<HTMLDivElement | null>(null)
   const isLoadingRef = useRef(isLoading)
+  const onIntersectRef = useRef(onIntersect)
 
   useEffect(() => {
     isLoadingRef.current = isLoading
   }, [isLoading])
+
+  useEffect(() => {
+    onIntersectRef.current = onIntersect
+  }, [onIntersect])
 
   useEffect(() => {
     const target = targetRef.current
@@ -26,7 +31,7 @@ export const useInfiniteScroll = ({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !isLoadingRef.current) {
-          onIntersect()
+          onIntersectRef.current()
         }
       },
       { rootMargin: '200px' },
@@ -37,7 +42,7 @@ export const useInfiniteScroll = ({
     return () => {
       observer.disconnect()
     }
-  }, [enabled, onIntersect])
+  }, [enabled])
 
   return targetRef
 }
