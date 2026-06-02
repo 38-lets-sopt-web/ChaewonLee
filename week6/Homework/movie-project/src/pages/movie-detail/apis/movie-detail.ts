@@ -38,6 +38,9 @@ const toMovieDetailItem = (movie: MovieDetailResponse): MovieDetailItem => ({
 export const getMovieDetail = async (movieId: number) => {
   const response = await http.get<MovieDetailResponse>(
     API_ENDPOINTS.MOVIES.DETAIL(movieId),
+    {
+      language: 'ko-KR',
+    },
   )
 
   return toMovieDetailItem(response)

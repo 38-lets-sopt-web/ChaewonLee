@@ -42,6 +42,7 @@ export const getMovieList = async ({
   const params = {
     include_adult: false,
     include_video: false,
+    language: 'ko-KR',
     page,
     sort_by: 'popularity.desc',
     ...(minRating !== undefined && { 'vote_average.gte': minRating }),
