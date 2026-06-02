@@ -1,13 +1,10 @@
 import type { ChangeEvent } from 'react'
 
-export type RatingFilterValue = {
-  min: number
-  max: number
-} | null
+import type { MovieRatingFilterValue } from '../../../types/movie'
 
 interface RatingFilterProps {
-  value: RatingFilterValue
-  onChange: (value: RatingFilterValue) => void
+  value: MovieRatingFilterValue
+  onChange: (value: MovieRatingFilterValue) => void
 }
 
 const ALL_RATING_VALUE = 'all'

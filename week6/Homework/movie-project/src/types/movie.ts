@@ -30,3 +30,8 @@ export interface MovieCardItem {
   overview: string
   voteAverage: number
 }
+
+export type MovieRatingFilterValue = {
+  min: number
+  max: number
+} | null

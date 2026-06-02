@@ -1,22 +1,19 @@
 import { useState } from 'react'
 
+import type { MovieRatingFilterValue } from '../../types/movie'
 import MovieGrid from './components/movie-grid'
-import RatingFilter, {
-  type RatingFilterValue,
-} from './components/rating-filter'
-import { MOCK_MOVIES } from './mock-movies'
+import RatingFilter from './components/rating-filter'
+import { useMovieListQuery } from './hooks/use-movie-list-query'
 
 const MovieListPage = () => {
-  const [ratingFilter, setRatingFilter] = useState<RatingFilterValue>(null)
+  const [ratingFilter, setRatingFilter] =
+    useState<MovieRatingFilterValue>(null)
 
-  const filteredMovies =
-    ratingFilter === null
-      ? MOCK_MOVIES
-      : MOCK_MOVIES.filter(
-          (movie) =>
-            movie.voteAverage >= ratingFilter.min &&
-            movie.voteAverage < ratingFilter.max,
-        )
+  const {
+    data: movies = [],
+    isError,
+    isLoading,
+  } = useMovieListQuery(ratingFilter)
 
   return (
     <main className="mx-auto max-w-[1120px] px-8 py-14">
@@ -24,7 +21,19 @@ const MovieListPage = () => {
 
       <RatingFilter value={ratingFilter} onChange={setRatingFilter} />
 
-      <MovieGrid movies={filteredMovies} />
+      {isLoading && (
+        <p className="mt-10 text-center text-body text-gray-500">
+          Loading movies...
+        </p>
+      )}
+
+      {isError && (
+        <p className="mt-10 text-center text-body text-gray-500">
+          Failed to load movies.
+        </p>
+      )}
+
+      {!isLoading && !isError && <MovieGrid movies={movies} />}
     </main>
   )
 }
