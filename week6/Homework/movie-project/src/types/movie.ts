@@ -101,7 +101,7 @@ export interface MovieDetailItem {
   genres: string[]
   voteAverage: number
   voteCount: number
-  runtime: number
+  runtime: number | null
   status: string
   productionCountries: string[]
   spokenLanguages: string[]

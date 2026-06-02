@@ -5,7 +5,9 @@ interface MovieDetailHeroProps {
   movie: MovieDetailItem
 }
 
-const formatRuntime = (runtime: number) => {
+const formatRuntime = (runtime: number | null) => {
+  if (runtime === null) return '-'
+
   const hours = Math.floor(runtime / 60)
   const minutes = runtime % 60
 
