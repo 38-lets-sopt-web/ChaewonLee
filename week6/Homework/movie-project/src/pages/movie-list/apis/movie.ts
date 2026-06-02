@@ -24,13 +24,23 @@ const toMovieCardItem = (movie: MovieResponse): MovieCardItem => ({
 interface GetMovieListParams {
   minRating?: number
   maxRating?: number
+  page?: number
+}
+
+interface MovieListResult {
+  page: number
+  results: MovieCardItem[]
+  totalPages: number
+  totalResults: number
 }
 
 export const getMovieList = async ({
   minRating,
   maxRating,
+  page = 1,
 }: GetMovieListParams = {}) => {
   const params = {
+    page,
     sort_by: 'popularity.desc',
     ...(minRating !== undefined && { 'vote_average.gte': minRating }),
     ...(maxRating !== undefined && {
@@ -43,5 +53,10 @@ export const getMovieList = async ({
     params,
   )
 
-  return response.results.map(toMovieCardItem)
+  return {
+    page: response.page,
+    results: response.results.map(toMovieCardItem),
+    totalPages: response.total_pages,
+    totalResults: response.total_results,
+  } satisfies MovieListResult
 }

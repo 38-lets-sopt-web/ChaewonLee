@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import type { MovieRatingFilterValue } from '../../types/movie'
 import MovieGrid from './components/movie-grid'
 import RatingFilter from './components/rating-filter'
+import { useInfiniteScroll } from './hooks/use-infinite-scroll'
 import { useMovieListQuery } from './hooks/use-movie-list-query'
 
 const MovieListPage = () => {
@@ -10,10 +11,23 @@ const MovieListPage = () => {
     useState<MovieRatingFilterValue>(null)
 
   const {
-    data: movies = [],
+    movies,
+    fetchNextPage,
+    hasNextPage,
     isError,
+    isFetchingNextPage,
     isLoading,
   } = useMovieListQuery(ratingFilter)
+
+  const handleLoadMore = useCallback(() => {
+    void fetchNextPage()
+  }, [fetchNextPage])
+
+  const loadMoreRef = useInfiniteScroll({
+    enabled: !!hasNextPage,
+    isLoading: isFetchingNextPage,
+    onIntersect: handleLoadMore,
+  })
 
   return (
     <main className="mx-auto max-w-[1120px] px-8 py-14">
@@ -33,7 +47,19 @@ const MovieListPage = () => {
         </p>
       )}
 
-      {!isLoading && !isError && <MovieGrid movies={movies} />}
+      {!isLoading && !isError && (
+        <>
+          <MovieGrid movies={movies} />
+
+          <div ref={loadMoreRef} className="h-10" />
+
+          {isFetchingNextPage && (
+            <p className="mt-4 text-center text-body text-gray-500">
+              Loading more movies...
+            </p>
+          )}
+        </>
+      )}
     </main>
   )
 }
